@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity {
 
-    private Button[] leftBtns = new Button[4];
+    private Button[] leftBtns  = new Button[4];
     private Button[] rightBtns = new Button[4];
 
     private TextView txtPlayer1;
@@ -20,7 +20,7 @@ public class GameActivity extends AppCompatActivity {
     private GameBoardView boardView;
 
     private GameManager gameManager;
-    private int level = Level.EASY; // כרגע רמה קלה
+    private int level = Level.EASY;   // כרגע רמה קלה (אפשר לשנות/לקבל מ-Intent)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
 
         txtPlayer1 = findViewById(R.id.txtPlayer1);
         txtPlayer2 = findViewById(R.id.txtPlayer2);
-        txtTurn   = findViewById(R.id.txtTurn);
+        txtTurn    = findViewById(R.id.txtTurn);
 
         leftBtns[0] = findViewById(R.id.btnL0);
         leftBtns[1] = findViewById(R.id.btnL1);
@@ -50,37 +50,20 @@ public class GameActivity extends AppCompatActivity {
         applyRoundToButtons(round);
         updateScoreAndTurnUI();
 
-        // אחרי שהכל נמדד על המסך – נחשב מרכזי כפתורים
-        boardView.post(new Runnable() {
-            @Override
-            public void run() {
-                updateAnchorsFromButtons();
-            }
-        });
-
         for (int i = 0; i < 4; i++) {
             final int index = i;
-            leftBtns[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onLeftClicked(index);
-                }
-            });
+            leftBtns[i].setOnClickListener(v -> onLeftClicked(index));
         }
 
         for (int i = 0; i < 4; i++) {
             final int index = i;
-            rightBtns[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onRightClicked(index);
-                }
-            });
+            rightBtns[i].setOnClickListener(v -> onRightClicked(index));
         }
     }
 
+    /** מילוי טקסטים בכפתורים בתחילת סיבוב */
     private void applyRoundToButtons(RoundData round) {
-        String[] left = round.getLeft();
+        String[] left  = round.getLeft();
         String[] right = round.getRight();
 
         for (int i = 0; i < 4; i++) {
@@ -93,36 +76,8 @@ public class GameActivity extends AppCompatActivity {
             rightBtns[i].setAlpha(1f);
         }
 
+        // התחלת סיבוב – מוחקים קווים קודמים
         boardView.resetLines();
-        // נעדכן שוב עוגנים אחרי שהטקסטים התעדכנו
-        boardView.post(new Runnable() {
-            @Override
-            public void run() {
-                updateAnchorsFromButtons();
-            }
-        });
-    }
-
-    private void updateAnchorsFromButtons() {
-        float[] lx = new float[4], ly = new float[4];
-        float[] rx = new float[4], ry = new float[4];
-
-        int[] loc = new int[2];
-        int[] rootLoc = new int[2];
-
-        findViewById(R.id.root).getLocationOnScreen(rootLoc);
-
-        for (int i = 0; i < 4; i++) {
-            leftBtns[i].getLocationOnScreen(loc);
-            lx[i] = (loc[0] - rootLoc[0]) + leftBtns[i].getWidth() / 2f;
-            ly[i] = (loc[1] - rootLoc[1]) + leftBtns[i].getHeight() / 2f;
-
-            rightBtns[i].getLocationOnScreen(loc);
-            rx[i] = (loc[0] - rootLoc[0]) + rightBtns[i].getWidth() / 2f;
-            ry[i] = (loc[1] - rootLoc[1]) + rightBtns[i].getHeight() / 2f;
-        }
-
-        boardView.setAnchors(lx, ly, rx, ry);
     }
 
     private void onLeftClicked(int index) {
@@ -130,24 +85,27 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < 4; i++) {
             leftBtns[i].setAlpha(1f);
         }
-        leftBtns[index].setAlpha(0.6f);
+        leftBtns[index].setAlpha(0.6f);   // סימון כפתור שנבחר
     }
 
     private void onRightClicked(int index) {
         MatchResult result = gameManager.selectRight(index);
 
+        // מחזירים שקיפות רגילה לכל הכפתורים
         for (int i = 0; i < 4; i++) {
             leftBtns[i].setAlpha(1f);
         }
 
         if (result.getLeftIndex() != null && result.getRightIndex() != null) {
-            Button leftBtn  = leftBtns[result.getLeftIndex()];
-            Button rightBtn = rightBtns[result.getRightIndex()];
 
-            // קו עם אנימציה
-            boardView.addAnimatedLine(result.getLeftIndex(),
-                    result.getRightIndex(),
-                    result.isCorrect());
+            int li = result.getLeftIndex();
+            int ri = result.getRightIndex();
+
+            Button leftBtn  = leftBtns[li];
+            Button rightBtn = rightBtns[ri];
+
+            // כאן הקסם – קו יוצא בדיוק מהאמצע של שני הכפתורים:
+            boardView.addAnimatedLineBetweenButtons(leftBtn, rightBtn, result.isCorrect());
 
             if (result.isCorrect()) {
                 leftBtn.setEnabled(false);

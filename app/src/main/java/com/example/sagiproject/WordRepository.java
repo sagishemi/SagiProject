@@ -8,19 +8,45 @@ public class WordRepository {
     private List<WordPair> easyWords = new ArrayList<>();
     private List<WordPair> hardWords = new ArrayList<>();
 
-    private GeminiWordsService geminiService = new GeminiWordsService();
 
     public WordRepository() {
         loadEasyWords();
         loadHardWords();
     }
+    /**
+     * הוספת 4 צמדי מילים לרמה קלה
+     */
+    public void addEasyWords(
+            String e1, String h1,
+            String e2, String h2,
+            String e3, String h3,
+            String e4, String h4) {
+
+        easyWords.add(new WordPair(e1, h1));
+        easyWords.add(new WordPair(e2, h2));
+        easyWords.add(new WordPair(e3, h3));
+        easyWords.add(new WordPair(e4, h4));
+    }
+
+
+    /**
+     * הוספת 4 צמדי מילים לרמה קשה
+     */
+    public void addHardWords(
+            String e1, String h1,
+            String e2, String h2,
+            String e3, String h3,
+            String e4, String h4) {
+
+        hardWords.add(new WordPair(e1, h1));
+        hardWords.add(new WordPair(e2, h2));
+        hardWords.add(new WordPair(e3, h3));
+        hardWords.add(new WordPair(e4, h4));
+    }
+
 
     public List<WordPair> getWordsByLevel(int level) {
-        // קודם ננסה להביא מגמיני
-        List<WordPair> fromGemini = geminiService.getWordsFromGemini(level);
-        if (fromGemini != null && !fromGemini.isEmpty()) {
-            return fromGemini;
-        }
+
 
         // אם לא הצליח – נ fallback למילים המקומיות
         if (level == Level.EASY) {

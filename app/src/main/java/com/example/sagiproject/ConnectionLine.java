@@ -2,18 +2,15 @@ package com.example.sagiproject;
 
 public class ConnectionLine {
 
-    // נקודת התחלה
     public final float startX;
     public final float startY;
 
-    // נקודת סיום
     public final float endX;
     public final float endY;
 
-    // האם החיבור נכון (ירוק) או שגוי (אדום)
     public final boolean correct;
 
-    // 0..1 – כמה מהקו כבר צויר (לאנימציה)
+    // 0..1 - כמה מהקו צויר (לאנימציה)
     public float progress = 0f;
 
     public ConnectionLine(float startX, float startY,

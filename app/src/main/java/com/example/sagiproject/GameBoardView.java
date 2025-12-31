@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,21 +17,17 @@ public class GameBoardView extends View {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final List<ConnectionLine> lines = new ArrayList<>();
 
-    // נקודות מרכז של הכפתורים
-    private float[] leftX = new float[4], leftY = new float[4];
-    private float[] rightX = new float[4], rightY = new float[4];
-
     public GameBoardView(Context context) {
         super(context);
         init();
     }
 
-    public GameBoardView(Context context, AttributeSet attrs) {
+    public GameBoardView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public GameBoardView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public GameBoardView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -39,29 +37,43 @@ public class GameBoardView extends View {
         paint.setStrokeWidth(10f);
     }
 
-    /** Activity מעבירה את מרכזי הכפתורים אחרי layout */
-    public void setAnchors(float[] lx, float[] ly, float[] rx, float[] ry) {
-        System.arraycopy(lx, 0, leftX, 0, 4);
-        System.arraycopy(ly, 0, leftY, 0, 4);
-        System.arraycopy(rx, 0, rightX, 0, 4);
-        System.arraycopy(ry, 0, rightY, 0, 4);
-        invalidate();
-    }
-
-    /** מתחיל סיבוב חדש – מוחק כל הקווים */
+    /** מוחק את כל הקווים (כשמתחיל סיבוב חדש) */
     public void resetLines() {
         lines.clear();
         invalidate();
     }
 
-    /** מוסיף קו עם אנימציה בין שמאל לימין */
-    public void addAnimatedLine(int leftIndex, int rightIndex, boolean correct) {
-        float sx = leftX[leftIndex];
-        float sy = leftY[leftIndex];
-        float ex = rightX[rightIndex];
-        float ey = rightY[rightIndex];
+    /**
+     * מוסיף קו עם אנימציה בין שני כפתורים.
+     * החישוב נעשה ביחס ל-GameBoardView עצמו,
+     * ולכן הקו יוצא בדיוק ממרכז הכפתורים.
+     */
+    public void addAnimatedLineBetweenButtons(View leftButton,
+                                              View rightButton,
+                                              boolean correct) {
 
-        ConnectionLine line = new ConnectionLine(sx, sy, ex, ey, correct);
+        if (leftButton == null || rightButton == null) return;
+
+        int[] p1 = new int[2];
+        int[] p2 = new int[2];
+        int[] overlayPos = new int[2];
+
+        // מיקום הכפתורים בחלון
+        leftButton.getLocationInWindow(p1);
+        rightButton.getLocationInWindow(p2);
+
+        // מיקום ה-View שמצייר את הקו בחלון
+        this.getLocationInWindow(overlayPos);
+
+        // אמצע כפתור שמאל
+        float startX = p1[0] - overlayPos[0] + leftButton.getWidth() / 2f;
+        float startY = p1[1] - overlayPos[1] + leftButton.getHeight() / 2f;
+
+        // אמצע כפתור ימין
+        float endX   = p2[0] - overlayPos[0] + rightButton.getWidth() / 2f;
+        float endY   = p2[1] - overlayPos[1] + rightButton.getHeight() / 2f;
+
+        ConnectionLine line = new ConnectionLine(startX, startY, endX, endY, correct);
         lines.add(line);
 
         ValueAnimator animator = ValueAnimator.ofFloat(0f, 1f);
@@ -87,12 +99,18 @@ public class GameBoardView extends View {
 
         for (ConnectionLine line : lines) {
             if (line.correct) {
-                paint.setARGB(255, 0, 170, 0); // ירוק
+                paint.setARGB(255, 0, 170, 0);   // ירוק
             } else {
-                paint.setARGB(255, 200, 0, 0); // אדום
+                paint.setARGB(255, 200, 0, 0);   // אדום
             }
-            canvas.drawLine(line.startX, line.startY,
-                    line.getCurrentX(), line.getCurrentY(), paint);
+
+            canvas.drawLine(
+                    line.startX,
+                    line.startY,
+                    line.getCurrentX(),
+                    line.getCurrentY(),
+                    paint
+            );
         }
     }
 }
