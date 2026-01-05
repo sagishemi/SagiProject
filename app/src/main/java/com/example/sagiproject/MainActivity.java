@@ -7,7 +7,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    private WordRepository wordRepository;
 
     private Button btnStartGame;
     private Button btnInstructions;
@@ -29,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         // מעבר למסך ההוראות
         btnInstructions.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,4 +43,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void updateWords(ArrayList<WordPair> arrayList) {
+        wordRepository.updateWords(arrayList);
+
+    }
+
 }

@@ -3,7 +3,7 @@ package com.example.sagiproject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordRepository {
+public class    WordRepository {
 
     private List<WordPair> easyWords = new ArrayList<>();
     private List<WordPair> hardWords = new ArrayList<>();
@@ -26,6 +26,17 @@ public class WordRepository {
         easyWords.add(new WordPair(e2, h2));
         easyWords.add(new WordPair(e3, h3));
         easyWords.add(new WordPair(e4, h4));
+    }
+    public void updateWords(ArrayList<WordPair> arrayList) {
+        printHand(arrayList);
+
+    }
+    void printHand(ArrayList<WordPair> arrayList)
+    {
+        for(int i=0;i<arrayList.size();i++)
+        {
+            System.out.println(arrayList.get(i).getEnglish()+arrayList.get(i).getHebrew());
+        }
     }
 
 
