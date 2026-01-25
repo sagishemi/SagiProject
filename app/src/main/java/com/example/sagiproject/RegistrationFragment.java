@@ -1,5 +1,6 @@
 package com.example.sagiproject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ public class RegistrationFragment extends Fragment {
     private FirebaseAuth mAuth;
     private EditText etEmail, etPassword, etName;
     private Button btnRegister;
+    private Context context;
 
     public RegistrationFragment() {
         // Required empty public constructor
@@ -49,6 +51,7 @@ public class RegistrationFragment extends Fragment {
         etPassword = view.findViewById(R.id.etNumberPassword);
         etName = view.findViewById(R.id.etName);
         btnRegister = view.findViewById(R.id.btnRegister);
+        this.context = getContext();
 
         // 3. Set the Click Listener
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +79,7 @@ public class RegistrationFragment extends Fragment {
                     if (task.isSuccessful()) {
                         Toast.makeText(getContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
 
-                        FBsingleton.getInstance().setName(name);
+                        FBsingleton.getInstance(context).setName(name);
 
                         // Move to WelcomeActivity
                         Intent intent = new Intent(getActivity(),MainActivity.class);

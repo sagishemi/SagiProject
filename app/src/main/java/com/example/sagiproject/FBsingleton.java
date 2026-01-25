@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,22 +62,43 @@ public class FBsingleton {
         return instance;
     }
 
-    public void setCard(Card card, String packageName)
+    public void setCard(WordPair wordPair, String packageName)
     {
         // Write a message to the database
         //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
 
         DatabaseReference myRef = database.getReference("YanivGame/" + packageName + "/");
 
-        myRef.setValue(card);
+        myRef.setValue(wordPair);
     }
 
-    public void setPackage(ArrayList<Card> cards, String packageName)
+    public void setPackage(ArrayList<WordPair> cards, String packageName)
     {
         // Write a message to the database
         //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
 
-        DatabaseReference myRef = database.getReference("YanivGame/" + packageName + "/");
+        DatabaseReference myRef = database.getReference("sagi/" + packageName + "/");
         myRef.setValue(cards);
+    }
+
+    public void setName(String name)
+    {
+        // Write a message to the database
+        //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
+
+        DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/MyName");
+
+        myRef.setValue(name);
+    }
+
+    public void setDetails(String type, int price)
+    {
+        // Write a message to the database
+        //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
+
+        DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/MyDetails");
+
+        MyDetailsInFb rec = new MyDetailsInFb(type, price);
+        myRef.setValue(rec);
     }
 }
