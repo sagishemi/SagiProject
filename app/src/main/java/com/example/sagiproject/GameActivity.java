@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
 public class GameActivity extends AppCompatActivity {
 
     private Button[] leftBtns  = new Button[4];
@@ -18,6 +20,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView txtTurn;
 
     private GameBoardView boardView;
+    WordRepository wordRepository = new WordRepository();
 
     private GameManager gameManager;
     private int level = Level.EASY;   // כרגע רמה קלה (אפשר לשנות/לקבל מ-Intent)
@@ -59,6 +62,8 @@ public class GameActivity extends AppCompatActivity {
             final int index = i;
             rightBtns[i].setOnClickListener(v -> onRightClicked(index));
         }
+        
+        FBsingleton.getInstance(this);
     }
 
     /** מילוי טקסטים בכפתורים בתחילת סיבוב */
@@ -132,5 +137,9 @@ public class GameActivity extends AppCompatActivity {
         txtPlayer2.setText("Player 2: " + gameManager.getPlayer(1).getScore());
         int current = gameManager.getCurrentPlayerIndex();
         txtTurn.setText("Turn: " + (current == 0 ? "P1" : "P2"));
+    }
+
+    public void updateWords(ArrayList<WordPair> arrayList) {
+        wordRepository.updateWords(arrayList);
     }
 }

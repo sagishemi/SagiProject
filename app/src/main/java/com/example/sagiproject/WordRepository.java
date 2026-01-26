@@ -5,8 +5,8 @@ import java.util.List;
 
 public class    WordRepository {
 
-    private List<WordPair> easyWords = new ArrayList<>();
-    private List<WordPair> hardWords = new ArrayList<>();
+    private ArrayList<WordPair> easyWords = new ArrayList<>();
+    private ArrayList<WordPair> hardWords = new ArrayList<>();
 
 
     public WordRepository() {
@@ -92,5 +92,12 @@ public class    WordRepository {
         hardWords.add(new WordPair("Improvement", "שיפור"));
         hardWords.add(new WordPair("Independent", "עצמאי"));
     }
+    public ArrayList<WordPair> getEasyWords(){
+        return easyWords;
+    }
+    public ArrayList<WordPair> getHardWords(){
+        return hardWords;
+    }
+
 }
 

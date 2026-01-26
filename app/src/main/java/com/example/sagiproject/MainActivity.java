@@ -12,12 +12,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private WordRepository wordRepository;
 
     private Button btnStartGame;
     private Button btnInstructions;
     private Button btnLogOut;
+    public ArrayList<WordPair> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +44,26 @@ public class MainActivity extends AppCompatActivity {
         btnInstructions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view == btnInstructions) {
+
                     Intent intent = new Intent(MainActivity.this, InstructionsActivity.class);
                     startActivity(intent);
-                } else {
-                    FirebaseAuth.getInstance().signOut();
-                    finish();
                 }
-            }
+
+
         });
 
 
-        public void updateWords (ArrayList < WordPair > arrayList) {
+        /*public void updateWords (ArrayList<WordPair>arrayList) {
             wordRepository.updateWords(arrayList);
 
         }
+*/
+    }
 
-    }}
+    @Override
+    public void onClick(View v) {
+
+            FirebaseAuth.getInstance().signOut();
+            finish();
+    }
+}

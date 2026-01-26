@@ -80,6 +80,12 @@ public class RegistrationFragment extends Fragment {
                         Toast.makeText(getContext(), "Registration Successful!", Toast.LENGTH_SHORT).show();
 
                         FBsingleton.getInstance(context).setName(name);
+                        FBsingleton.getInstance(context).setScore();
+                        FBsingleton.getInstance(context).setEasyWords();
+                        FBsingleton.getInstance(context).setHardWords();
+
+
+
 
                         // Move to WelcomeActivity
                         Intent intent = new Intent(getActivity(),MainActivity.class);

@@ -18,8 +18,13 @@ import java.util.ArrayList;
 
 
 public class FBsingleton {
+    WordRepository wordRepository= new WordRepository();
     private static FBsingleton instance;
     private static Context context;
+    private ArrayList<WordPair>arrayListEasy=wordRepository.getEasyWords();
+    private ArrayList<WordPair>arrayListHard=wordRepository.getHardWords();
+
+
 
     FirebaseDatabase database;
 
@@ -41,7 +46,7 @@ public class FBsingleton {
                         WordPair wordPair = dataSnapshot.getValue(WordPair.class);
                         arrayList.add(wordPair);
                     };
-                    ((MainActivity)context).updateWords(arrayList);
+                    ((GameActivity)context).updateWords(arrayList);
                 }
 
             }
@@ -89,6 +94,33 @@ public class FBsingleton {
         DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/MyName");
 
         myRef.setValue(name);
+    }
+    public void setScore()
+    {
+        // Write a message to the database
+        //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
+
+        DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/MyScore");
+
+        myRef.setValue(0);
+    }
+    public void setEasyWords()
+    {
+        // Write a message to the database
+        //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
+
+        DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/EasyWords");
+
+        myRef.setValue(arrayListEasy);
+    }
+    public void setHardWords()
+    {
+        // Write a message to the database
+        //DatabaseReference myRef = database.getReference("records").push(); // push adds new node with unique value
+
+        DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/HardWords");
+
+        myRef.setValue(arrayListHard);
     }
 
     public void setDetails(String type, int price)
