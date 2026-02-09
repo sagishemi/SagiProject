@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sagiproject.gemini.GeminiCallback;
+import com.example.sagiproject.gemini.GeminiManager;
+
 import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
@@ -64,7 +67,28 @@ public class GameActivity extends AppCompatActivity {
         }
         
         FBsingleton.getInstance(this);
-    }
+        String prompt =  "תשובה עד 30 מילים";
+
+        GeminiManager.getInstance().sendMessage(prompt, new GeminiCallback() {
+                    @Override
+                    public void onSuccess(String response) {
+                        runOnUiThread(() ->
+                                {
+
+                                }
+                        );
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+
+                    }
+                }
 
     /** מילוי טקסטים בכפתורים בתחילת סיבוב */
     private void applyRoundToButtons(RoundData round) {
