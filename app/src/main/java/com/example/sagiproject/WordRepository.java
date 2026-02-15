@@ -72,12 +72,7 @@ public class    WordRepository {
         easyWords.add(new WordPair("Cat", "חתול"));
         easyWords.add(new WordPair("Sun", "שמש"));
         easyWords.add(new WordPair("Apple", "תפוח"));
-        easyWords.add(new WordPair("Car", "מכונית"));
-        easyWords.add(new WordPair("House", "בית"));
-        easyWords.add(new WordPair("Book", "ספר"));
-        easyWords.add(new WordPair("School", "בית ספר"));
-        easyWords.add(new WordPair("Water", "מים"));
-        easyWords.add(new WordPair("Food", "אוכל"));
+
     }
 
     private void loadHardWords() {
@@ -85,13 +80,7 @@ public class    WordRepository {
         hardWords.add(new WordPair("Experience", "חוויה"));
         hardWords.add(new WordPair("Knowledge", "ידע"));
         hardWords.add(new WordPair("Responsibility", "אחריות"));
-        hardWords.add(new WordPair("Opportunity", "הזדמנות"));
-        hardWords.add(new WordPair("Challenge", "אתגר"));
-        hardWords.add(new WordPair("Communication", "תקשורת"));
-        hardWords.add(new WordPair("Competition", "תחרות"));
-        hardWords.add(new WordPair("Improvement", "שיפור"));
-        hardWords.add(new WordPair("Independent", "עצמאי"));
-    }
+        }
     public ArrayList<WordPair> getEasyWords(){
         return easyWords;
     }

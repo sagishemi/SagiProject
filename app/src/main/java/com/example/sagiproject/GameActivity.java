@@ -70,25 +70,27 @@ public class GameActivity extends AppCompatActivity {
         String prompt =  "תשובה עד 30 מילים";
 
         GeminiManager.getInstance().sendMessage(prompt, new GeminiCallback() {
-                    @Override
-                    public void onSuccess(String response) {
-                        runOnUiThread(() ->
-                                {
+            @Override
+            public void onSuccess(String response) {
+                runOnUiThread(() ->
+                        {
 
-                                }
-                        );
-                    }
+                        }
+                );
+            }
 
-                    @Override
-                    public void onError(Throwable error) {
+            @Override
+            public void onError(Throwable error) {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Exception e) {
+            @Override
+            public void onError(Exception e) {
 
-                    }
-                }
+            }
+        });
+
+    }
 
     /** מילוי טקסטים בכפתורים בתחילת סיבוב */
     private void applyRoundToButtons(RoundData round) {
@@ -163,7 +165,7 @@ public class GameActivity extends AppCompatActivity {
         txtTurn.setText("Turn: " + (current == 0 ? "P1" : "P2"));
     }
 
-    public void updateWords(ArrayList<WordPair> arrayList) {
+    public void   bupdateWords(ArrayList<WordPair> arrayList) {
         wordRepository.updateWords(arrayList);
     }
 }
