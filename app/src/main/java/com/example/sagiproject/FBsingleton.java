@@ -1,6 +1,7 @@
 package com.example.sagiproject;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -34,7 +35,7 @@ public class FBsingleton {
         // read the records from the Firebase and order them by the record from highest to lowest
         // limit to only 8 items
         //Query myQuery = database.getReference("records").orderByChild("score").limitToLast(10);
-        DatabaseReference myRef = database.getReference("SagiProject");
+        DatabaseReference myRef = database.getReference("records/" + FirebaseAuth.getInstance().getUid() + "/EasyWords");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -46,7 +47,13 @@ public class FBsingleton {
                         WordPair wordPair = dataSnapshot.getValue(WordPair.class);
                         arrayList.add(wordPair);
                     };
-                    ((GameActivity)context).updateWords(arrayList);
+                    //((GameActivity)context).updateWords(arrayList);
+                    Toast.makeText(context, "Read Words", Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                {
+                    Toast.makeText(context, "Enter new Words", Toast.LENGTH_SHORT).show();
                 }
 
             }

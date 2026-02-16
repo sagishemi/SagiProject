@@ -10,7 +10,10 @@ public class WordPair {
             this.hebrew = hebrew;
         }
 
-        public String getEnglish() {
+    public WordPair() {
+    }
+
+    public String getEnglish() {
             return english;
         }
 

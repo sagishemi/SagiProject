@@ -57,7 +57,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             wordRepository.updateWords(arrayList);
 
         }
+
+
 */
+        FBsingleton.getInstance(this);
     }
 
     @Override
