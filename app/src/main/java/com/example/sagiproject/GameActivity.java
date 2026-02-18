@@ -74,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
             public void onSuccess(String response) {
                 runOnUiThread(() ->
                         {
-
+                            FBsingleton.getInstance(GameActivity.this).setEasyWords("GG");
                         }
                 );
             }

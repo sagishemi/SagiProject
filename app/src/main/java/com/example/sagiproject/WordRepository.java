@@ -5,17 +5,73 @@ import java.util.List;
 
 public class    WordRepository {
 
-    private ArrayList<WordPair> easyWords = new ArrayList<>();
-    private ArrayList<WordPair> hardWords = new ArrayList<>();
+    public ArrayList<WordPair> easyWords = new ArrayList<>();
+    public ArrayList<WordPair> hardWords = new ArrayList<>();
 
 
     public WordRepository() {
         loadEasyWords();
         loadHardWords();
     }
+    private void loadEasyWords() {
+        easyWords.add(new WordPair("Dog", "כלב"));
+        easyWords.add(new WordPair("Cat", "חתול"));
+        easyWords.add(new WordPair("Sun", "שמש"));
+        easyWords.add(new WordPair("Apple", "תפוח"));
+
+    }
+
+    private void loadHardWords() {
+        hardWords.add(new WordPair("Environment", "סביבה"));
+        hardWords.add(new WordPair("Experience", "חוויה"));
+        hardWords.add(new WordPair("Knowledge", "ידע"));
+        hardWords.add(new WordPair("Responsibility", "אחריות"));
+    }
+
+    public static String easyWordListToString(ArrayList<WordPair> easyPair) {
+        if (easyPair == null || easyPair.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < easyPair.size(); i++) {
+            WordPair w = easyPair.get(i);
+
+            sb.append(w.getEnglish())
+                    .append(" - ")
+                    .append(w.getHebrew());
+
+            if (i < easyPair.size() - 1) {
+                sb.append(" | "); // מפריד בין פריטים
+            }
+        }
+
+        return sb.toString();
+    }
+    public static String hardWordListToString(ArrayList<WordPair> hardPair) {
+        if (hardPair == null || hardPair.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < hardPair.size(); i++) {
+            WordPair w = hardPair.get(i);
+
+            sb.append(w.getEnglish())
+                    .append(" - ")
+                    .append(w.getHebrew());
+
+            if (i < hardPair.size() - 1) {
+                sb.append(" | "); // מפריד בין פריטים
+            }
+        }
+
+        return sb.toString();
+    }
+
+
     /**
      * הוספת 4 צמדי מילים לרמה קלה
      */
+
     public void addEasyWords(
             String e1, String h1,
             String e2, String h2,
@@ -67,20 +123,7 @@ public class    WordRepository {
         }
     }
 
-    private void loadEasyWords() {
-        easyWords.add(new WordPair("Dog", "כלב"));
-        easyWords.add(new WordPair("Cat", "חתול"));
-        easyWords.add(new WordPair("Sun", "שמש"));
-        easyWords.add(new WordPair("Apple", "תפוח"));
 
-    }
-
-    private void loadHardWords() {
-        hardWords.add(new WordPair("Environment", "סביבה"));
-        hardWords.add(new WordPair("Experience", "חוויה"));
-        hardWords.add(new WordPair("Knowledge", "ידע"));
-        hardWords.add(new WordPair("Responsibility", "אחריות"));
-        }
     public ArrayList<WordPair> getEasyWords(){
         return easyWords;
     }
